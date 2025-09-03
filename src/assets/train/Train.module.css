@@ -1,0 +1,28 @@
+.wave {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: waveFlow 4s linear infinite;
+}
+
+.wave:nth-child(1) {
+  animation-delay: 0s;
+}
+.wave:nth-child(2) {
+  animation-delay: 1s;
+}
+.wave:nth-child(3) {
+  animation-delay: 2s;
+}
+
+@keyframes waveFlow {
+  0% {
+    transform: translateX(0);
+    stroke-dashoffset: 400;
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(1748px);
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}

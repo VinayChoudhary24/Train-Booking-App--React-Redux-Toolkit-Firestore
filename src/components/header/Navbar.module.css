@@ -1,0 +1,126 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--font-color-primary);
+  padding: 0.9375rem 0.125rem;
+  z-index: 1000 !important;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(120, 134, 155, 0.18);
+  background-color: #ffffff;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0.0625rem;
+  margin-left: 0.3125rem;
+  cursor: pointer;
+  /* background-color: aqua; */
+}
+
+.homeIcon {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--text-active-color);
+  transition: color 0.2s ease;
+}
+
+.homeIcon:hover {
+  color: var(--hover-primary);
+  transform: scale(1.1);
+}
+
+.logo {
+  font-size: 1.2rem;
+  color: var(--font-color-primary);
+  font-family: var(--font-family-primary);
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.navLink {
+  cursor: pointer;
+  transition: color 0.2s ease;
+  color: var(--font-color-primary);
+  font-family: var(--font-family-primary);
+  text-decoration: none;
+}
+
+.navLink:hover {
+  color: var(--hover-primary);
+}
+
+.icon {
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  color: var(--text-active-color);
+}
+
+.icon:hover {
+  transform: scale(1.1);
+  color: var(--hover-primary);
+}
+
+.active {
+  color: var(--text-active-color);
+  text-decoration: none;
+}
+
+/* Tablet (width ≤ 1024px) */
+@media (max-width: 1024px) {
+  .logo {
+    font-size: 1.1rem;
+  }
+  .homeIcon,
+  .icon {
+    font-size: 1.1rem;
+  }
+  .navLink {
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile (width ≤ 768px) */
+@media (max-width: 768px) {
+  .logo {
+    font-size: 0.8rem;
+  }
+  .homeIcon,
+  .icon {
+    font-size: 1rem;
+  }
+  .navLink {
+    font-size: 0.8rem;
+  }
+}
+
+/* Small Mobile (width ≤ 480px) */
+@media (max-width: 480px) {
+  .logo {
+    font-size: 0.7rem;
+  }
+  .homeIcon,
+  .icon {
+    font-size: 0.9rem;
+  }
+  .navLink {
+    font-size: 0.7rem;
+  }
+}

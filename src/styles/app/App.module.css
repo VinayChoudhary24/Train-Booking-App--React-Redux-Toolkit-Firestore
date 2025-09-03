@@ -1,0 +1,70 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainContent {
+  flex: 1;
+  padding-top: 1.25rem;
+  /* Height of navbar */
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+}
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* full screen */
+  width: 100%;
+  background: #f9f9f9;
+}
+
+/* TRAIN WHEEL */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  color: var(--text-active-color);
+  border-radius: 50%;
+  display: grid;
+  background: conic-gradient(from 90deg at 4px 4px, #0000 90deg, currentColor 0) -4px -4px /
+      calc(50% + 2px) calc(50% + 2px),
+    radial-gradient(
+        farthest-side,
+        currentColor 6px,
+        #0000 7px calc(100% - 6px),
+        currentColor calc(100% - 5px)
+      )
+      no-repeat;
+  animation: l10 2s infinite linear;
+  position: relative;
+}
+.loader:before {
+  content: "";
+  border-radius: inherit;
+  background: inherit;
+  transform: rotate(45deg);
+}
+@keyframes l10 {
+  to {
+    transform: rotate(0.5turn);
+  }
+}
+
+/* TRAIN TRACK */
+/* .loader {
+  width: 120px;
+  height: 20px;
+  background: linear-gradient(var(--text-active-color) 0 0) left -40px top 0/40px
+    100% no-repeat #cbc1c1;
+  -webkit-mask: conic-gradient(from 90deg at 5px 5px, #0000 25%, #000 0) 0 0 /
+    calc((100% - 5px) / 5) calc(100% - 5px);
+  animation: l10 1s infinite linear;
+}
+@keyframes l10 {
+  100% {
+    background-position: right -40px top 0;
+  }
+} */

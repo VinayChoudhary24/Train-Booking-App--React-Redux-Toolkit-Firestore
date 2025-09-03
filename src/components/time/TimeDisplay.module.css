@@ -1,0 +1,26 @@
+.navInfo {
+  color: var(--font-color-primary);
+  font-family: var(--font-family-primary);
+  text-decoration: none;
+}
+
+/* Tablet (width ≤ 1024px) */
+@media (max-width: 1024px) {
+  .navInfo {
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile (width ≤ 768px) */
+@media (max-width: 768px) {
+  .navInfo {
+    font-size: 0.8rem;
+  }
+}
+
+/* Small Mobile (width ≤ 480px) */
+@media (max-width: 480px) {
+  .navinfo {
+    font-size: 0.7rem;
+  }
+}

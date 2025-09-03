@@ -1,0 +1,66 @@
+.baseButton {
+  font-size: 0.875rem;
+  color: var(--font-color-primary);
+  font-family: var(--font-family-primary);
+  padding: 6px 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+/* Variants you can reuse */
+.login {
+  margin-left: 10px;
+  background-color: #e7ebeb;
+}
+
+.login:hover {
+  background-color: #b7cccc;
+}
+
+.register {
+  background-color: var(--text-active-color);
+  border: 1px solid rgba(120, 134, 155, 0.18);
+  /* border: 1px solid #007563; */
+  margin-right: 20px;
+  color: #fff;
+}
+
+.register:hover {
+  background-color: #008f79;
+}
+
+.logout {
+  background-color: #ff4d4f; /* red */
+  color: #fff;
+  border: none;
+}
+
+.logout:hover {
+  background-color: #d9363e;
+}
+
+/* Tablet (≤ 1024px) */
+@media (max-width: 1024px) {
+  .baseButton {
+    font-size: 0.8125rem; /* 13px */
+    padding: 0.3rem 0.6rem; /* 5px 12px */
+  }
+}
+
+/* Mobile (≤ 768px) */
+@media (max-width: 768px) {
+  .baseButton {
+    font-size: 0.75rem; /* 12px */
+    padding: 0.2rem 0.5rem; /* 4px 10px */
+  }
+}
+
+/* Small Mobile (≤ 480px) */
+@media (max-width: 480px) {
+  .baseButton {
+    font-size: 0.6875rem; /* 11px */
+    padding: 0.1875rem 0.4rem; /* 3px 8px */
+  }
+}
