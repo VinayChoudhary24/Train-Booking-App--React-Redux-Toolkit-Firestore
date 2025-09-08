@@ -238,6 +238,11 @@ export const selectFilteredTrains = createSelector(
   (train) => train.filteredTrains
 );
 
+export const selectSelectedTrain = createSelector(
+  selectTrainState,
+  (train) => train.selectedTrain
+);
+
 export const selectSearchParams = createSelector(
   selectTrainState,
   (train) => train.searchParams

@@ -3,12 +3,14 @@ import { authReducer } from "./auth/authSlice/authSlice";
 import { loggerMiddleware } from "./middlewares/loggerMiddleware";
 import { loaderReducer } from "./loader/loaderSlice/loaderSlice";
 import { trainReducer } from "./train/trainSlice/trainSlice";
+import { bookingReducer } from "./bookings/bookingSlice/bookingSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     loader: loaderReducer,
     trains: trainReducer,
+    bookings: bookingReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([loggerMiddleware]),

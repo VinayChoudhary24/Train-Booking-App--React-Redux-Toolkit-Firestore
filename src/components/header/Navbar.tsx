@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import { FaBell, FaHome, FaQuestionCircle } from "react-icons/fa";
 import Button from "../button/Button";
@@ -19,11 +18,10 @@ const Navbar = () => {
   const navigate = useNavigate();
   // REDUX DISPATCH and SELECTOR
   const dispatch = useAppDispatch();
-  // const user = useAppSelector(selectUserDetails);
+
   const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
   // const status = useAppSelector(selectAuthLoadingStatus);
   // const error = useAppSelector(selectAuthError);
-  // const isAuthed = useAppSelector(selectIsAuthenticated);
 
   // STATE
   // const [currentTime, setCurrentTime] = useState(new Date()); //shows current Date and Time
@@ -31,15 +29,6 @@ const Navbar = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false); //Register Modal
 
   // SIDE-EFFECTS
-  // Setting Date and Time
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCurrentTime(new Date());
-  //     //   console.log("currentTime", currentTime);
-  //   }, 1000);
-  //   // Clean-up code
-  //   return () => clearInterval(interval);
-  // }, []);
 
   const handleBookingClick = () => {
     if (isUserLoggedIn) {
@@ -79,25 +68,14 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <div className={styles.navLinks}>
-          <span className={styles.navLink} onClick={handleBookingClick}>
-            My Booings
-          </span>
+          {isUserLoggedIn && (
+            <span className={styles.navLink} onClick={handleBookingClick}>
+              My Bookings
+            </span>
+          )}
           <Link to="/contact" className={styles.navLink}>
             Contact Us
           </Link>
-          {/* <span className={styles.navinfo}>
-            {currentTime.getDate()}/
-            {currentTime
-              .toLocaleString("en-US", { month: "short" })
-              .toUpperCase()}{" "}
-            (
-            {currentTime.toLocaleTimeString("en-US", {
-              hour: "numeric",
-              minute: "2-digit",
-              hour12: true,
-            })}
-            )
-          </span> */}
           <TimeDisplay />
           <FaQuestionCircle className={styles.icon} title="Help & Support" />
 

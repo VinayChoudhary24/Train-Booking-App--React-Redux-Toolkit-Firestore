@@ -114,12 +114,12 @@ const TrainSearchResults = () => {
   // Apply filters when trains, search params, or filters change
   useEffect(() => {
     if (trains.length > 0) {
-      console.log("FETCHING-TRAIN-2222");
+      // console.log("FETCHING-TRAIN-2222");
       dispatch(showLoader());
       dispatch(applyFilters());
     }
-    console.log("LOADING", loading);
-    console.log("TRAINS", trains);
+    // console.log("LOADING", loading);
+    // console.log("TRAINS", trains);
     dispatch(hideLoader());
   }, [loading, trains, searchParams, filters, dispatch]);
 
