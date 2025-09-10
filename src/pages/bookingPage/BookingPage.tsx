@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "../styles/BookingPage.module.css";
+import styles from "./BookingPage.module.css";
 import {
   useAppDispatch,
   useAppSelector,
@@ -189,18 +189,6 @@ function BookingPage() {
     navigate("/train-search");
   };
 
-  // Show loading state
-  //   if (loading) {
-  //     return (
-  //       <div className={styles.container}>
-  //         <h2>Processing Booking...</h2>
-  //         <div className={styles.loading}>
-  //           Please wait while we process your booking.
-  //         </div>
-  //       </div>
-  //     );
-  //   }
-
   // Show error state
   if (error) {
     return (
@@ -240,34 +228,41 @@ function BookingPage() {
 
   return (
     <div className={styles.container}>
-      <h2>Book Your Train Ticket</h2>
-
+      {/* <h2>Book Your Train Ticket</h2> */}
       <div className={styles.trainSummary}>
         <h3>Train Details</h3>
         <div className={styles.detailsGrid}>
           <div>
-            <strong>Train Number:</strong> {trainDetails.trainNumber}
+            <strong>Train Number:</strong>
+            <span>{trainDetails.trainNumber}</span>
           </div>
           <div>
-            <strong>Train Name:</strong> {trainDetails.trainName}
+            <strong>Train Name:</strong>
+            <span>{trainDetails.trainName}</span>
           </div>
           <div>
-            <strong>From:</strong> {trainDetails.from}
+            <strong>From:</strong>
+            <span>{trainDetails.from}</span>
           </div>
           <div>
-            <strong>To:</strong> {trainDetails.to}
+            <strong>To:</strong>
+            <span>{trainDetails.to}</span>
           </div>
           <div>
-            <strong>Date:</strong> {trainDetails.date}
+            <strong>Date:</strong>
+            <span>{trainDetails.date}</span>
           </div>
           <div>
-            <strong>Departure:</strong> {trainDetails.departureTime}
+            <strong>Departure:</strong>
+            <span>{trainDetails.departureTime}</span>
           </div>
           <div>
-            <strong>Arrival:</strong> {trainDetails.arrivalTime}
+            <strong>Arrival:</strong>
+            <span>{trainDetails.arrivalTime}</span>
           </div>
           <div>
-            <strong>Duration:</strong> {trainDetails.duration}
+            <strong>Duration:</strong>
+            <span>{trainDetails.duration}</span>
           </div>
           <div>
             <strong>Class:</strong>
@@ -298,7 +293,9 @@ function BookingPage() {
           <h3>Passenger Details</h3>
           {passengers.map((passenger, index) => (
             <div key={index} className={styles.passengerCard}>
-              <h4>Passenger {index + 1}</h4>
+              <div>
+                <h4>Passenger {index + 1}</h4>
+              </div>
               <div className={styles.inputGroup}>
                 <label>
                   Name:
@@ -442,8 +439,10 @@ function BookingPage() {
 
         <div className={styles.termsSection}>
           <label>
-            <input type="checkbox" required />I agree to the Terms and
-            Conditions and Cancellation Policy
+            <input type="checkbox" required />
+            <span>
+              I agree to the Terms and Conditions and Cancellation Policy
+            </span>
           </label>
         </div>
 

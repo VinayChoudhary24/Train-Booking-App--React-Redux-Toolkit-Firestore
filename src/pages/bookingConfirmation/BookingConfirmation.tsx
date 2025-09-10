@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "../styles/BookingConfirmationPage.module.css";
+import styles from "./BookingConfirmation.module.css";
 
 function BookingConfirmation() {
   const location = useLocation();

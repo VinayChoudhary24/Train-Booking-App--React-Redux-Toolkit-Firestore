@@ -128,9 +128,39 @@
   background-color: #83adad;
 }
 
+.suggestions {
+  position: absolute;
+  top: 108%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 1000;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.suggestions li {
+  color: var(--font-color-primary);
+  font-family: var(--font-family-primary);
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.suggestions li:hover {
+  background-color: #f0f0f0;
+}
+
 .ShowTrain {
   background-color: #00a88f;
-  color: #fff;
+  color: var(--font-color-primary);
   font-family: var(--font-family-primary);
 }
 

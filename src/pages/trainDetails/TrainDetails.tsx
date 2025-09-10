@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { FaTrain } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
-import styles from "../styles/TrainDetails.module.css";
+import styles from "./TrainDetails.module.css";
 import {
   useAppDispatch,
   useAppSelector,
@@ -51,24 +51,48 @@ const TrainDetails = () => {
     }
   }, [trainDetails, selectedClass]);
 
-  const handleBooking = () => {
-    if (!trainDetails || !selectedClass) return;
+  // Memoize source and destination
+  const { source, destination } = useMemo(() => {
+    if (!trainDetails || !trainDetails.route?.length) {
+      return { source: null, destination: null };
+    }
+    return {
+      source: trainDetails.route[0],
+      destination: trainDetails.route[trainDetails.route.length - 1],
+    };
+  }, [trainDetails]);
 
-    // Create a formatted date for today
+  // Memoize fare calculations
+  const { baseFare, serviceCharge, totalFare } = useMemo(() => {
+    if (!trainDetails?.price || !selectedClass) {
+      return { baseFare: 0, serviceCharge: 0, totalFare: 0 };
+    }
+    const base = trainDetails.price[selectedClass];
+    const service = Math.floor(base * 0.05);
+    return {
+      baseFare: base,
+      serviceCharge: service,
+      totalFare: base + service,
+    };
+  }, [trainDetails, selectedClass]);
+
+  // Memoize class selection handler
+  const handleClassSelection = useCallback((classType: string) => {
+    setSelectedClass(classType);
+  }, []);
+
+  // Memoize booking handler
+  const handleBooking = useCallback(() => {
+    if (!trainDetails || !selectedClass || !source || !destination) return;
+
     const today = new Date();
     const formattedDate = today.toISOString().split("T")[0];
 
-    // Get source and destination stations
-    const source = trainDetails.route[0].station_name;
-    const destination =
-      trainDetails.route[trainDetails.route.length - 1].station_name;
-
-    // Initialize booking in Redux and navigate
     const trainData = {
       trainNumber: trainDetails.train_number,
       trainName: trainDetails.train_name,
-      from: source,
-      to: destination,
+      from: source.station_name,
+      to: destination.station_name,
       date: formattedDate,
       departureTime: trainDetails.departure_time,
       arrivalTime: trainDetails.arrival_time,
@@ -77,14 +101,13 @@ const TrainDetails = () => {
       quota: "General",
     };
 
-    // Navigate to booking page with train details
     navigate("/booking", {
       state: {
         ...trainData,
         price: trainDetails.price,
       },
     });
-  };
+  }, [trainDetails, selectedClass, source, destination, navigate]);
 
   //   if (loading) {
   //     return (
@@ -121,16 +144,6 @@ const TrainDetails = () => {
       </div>
     );
   }
-
-  // Get source and destination from route array
-  const source = trainDetails.route[0];
-  const destination = trainDetails.route[trainDetails.route.length - 1];
-
-  // Calculate service charge (5% of base fare)
-  const baseFare =
-    trainDetails.price && selectedClass ? trainDetails.price[selectedClass] : 0;
-  const serviceCharge = Math.floor(baseFare * 0.05);
-  const totalFare = baseFare + serviceCharge;
 
   return (
     <div className={styles.container}>
@@ -209,7 +222,7 @@ const TrainDetails = () => {
                 className={`${styles.classButton} ${
                   selectedClass === classType ? styles.active : ""
                 }`}
-                onClick={() => setSelectedClass(classType)}
+                onClick={() => handleClassSelection(classType)}
               >
                 {classType}
               </button>

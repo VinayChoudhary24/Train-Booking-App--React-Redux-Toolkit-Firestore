@@ -9,6 +9,11 @@ import TrainDetails from "./pages/trainDetails/TrainDetails";
 import BookingConfirmation from "./pages/bookingConfirmation/BookingConfirmation";
 import BookingPage from "./pages/bookingPage/BookingPage";
 import MyBookings from "./pages/myBookings/MyBookings";
+// import { lazy, Suspense } from "react";
+
+// const TrainSearchResults = lazy(
+//   () => import("./pages/trainSearchResults/TrainSearchResults")
+// );
 
 const ROUTES = {
   HOME: {
@@ -42,7 +47,11 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.HOME.CHILDREN.TRAIN_SEARCH,
-        element: <TrainSearchResults />,
+        element: (
+          // <Suspense fallback={<div>Loading search results...</div>}>
+          <TrainSearchResults />
+          // </Suspense>
+        ),
       },
       {
         path: ROUTES.HOME.CHILDREN.TRAIN_DETAIL,

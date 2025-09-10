@@ -6,11 +6,19 @@
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+.container h3 {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 h2 {
   font-size: 24px;
-  color: #333;
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -32,6 +40,12 @@ h2 {
   background-color: #f8f9fa;
   border-radius: 8px;
   max-width: 500px;
+}
+
+.journeyInfo span,
+.journeyInfo strong {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .journeyDetail {
@@ -58,6 +72,10 @@ h2 {
   position: relative;
   padding: 20px 0;
   margin: 30px 0;
+}
+
+.progressBar span {
+  font-family: var(--font-family-primary);
 }
 
 .progressBar::after {
@@ -153,6 +171,10 @@ h2 {
   margin-top: 5px;
 }
 
+.timeInfo div {
+  font-family: var(--font-family-primary);
+}
+
 /* Class Selector */
 .classSelector {
   display: flex;
@@ -169,6 +191,8 @@ h2 {
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s ease;
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .classButton.active {
@@ -190,7 +214,8 @@ h2 {
 .priceCard h3 {
   font-size: 18px;
   margin-bottom: 15px;
-  color: #333;
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .priceDetails {
@@ -203,6 +228,11 @@ h2 {
 .priceDetails:last-of-type {
   border-bottom: none;
   margin-bottom: 15px;
+}
+
+.priceDetails span {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .price {
@@ -229,6 +259,11 @@ h2 {
   flex-wrap: wrap;
 }
 
+.daysContainer span {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
+}
+
 .dayBadge {
   display: inline-block;
   padding: 5px 10px;
@@ -245,6 +280,7 @@ h2 {
   padding: 10px 25px;
   font-size: 16px;
   color: white;
+  font-family: var(--font-family-primary);
   border: none;
   border-radius: 5px;
   cursor: pointer;

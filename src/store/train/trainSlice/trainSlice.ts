@@ -5,6 +5,7 @@ import { fetchTrainDetails, fetchTrains } from "../trainEffects/trainEffects";
 const initialState: TrainState = {
   trains: [],
   filteredTrains: [],
+  recentSearches: [],
   selectedTrain: null,
   searchParams: {
     from: "",
@@ -188,6 +189,21 @@ export const trainSlice = createSlice({
     clearSelectedTrain: (state) => {
       state.selectedTrain = null;
     },
+
+    // Add to recent searches
+    addRecentSearch: (state, action) => {
+      const train = action.payload;
+      // Avoid duplicates
+      if (
+        !state.recentSearches.find((t) => t.train_number === train.train_number)
+      ) {
+        state.recentSearches.push(train);
+      }
+      // Keep only last 5 searches
+      if (state.recentSearches.length > 5) {
+        state.recentSearches.shift();
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -195,10 +211,14 @@ export const trainSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchTrains.fulfilled, (state, action) => {
+        console.log("FETCH TRAINS SUCCESS");
         state.trains = action.payload;
         state.loading = false;
       })
-
+      .addCase(fetchTrains.rejected, (state) => {
+        state.loading = false;
+        state.error = "Failed to fetch trains";
+      })
       .addCase(fetchTrainDetails.pending, (state) => {
         state.loading = true;
       })
@@ -222,6 +242,7 @@ export const {
   applyFilters,
   clearError,
   clearSelectedTrain,
+  addRecentSearch,
 } = trainSlice.actions;
 
 export const trainReducer = trainSlice.reducer;
@@ -236,6 +257,11 @@ export const selectAllTrains = createSelector(
 export const selectFilteredTrains = createSelector(
   selectTrainState,
   (train) => train.filteredTrains
+);
+
+export const selectRecentSearches = createSelector(
+  selectTrainState,
+  (train) => train.recentSearches
 );
 
 export const selectSelectedTrain = createSelector(

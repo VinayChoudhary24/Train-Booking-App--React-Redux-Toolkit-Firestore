@@ -13,7 +13,14 @@ export const store = configureStore({
     bookings: bookingReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([loggerMiddleware]),
+    getDefaultMiddleware({
+      serializableCheck: {
+        warnAfter: 64, // default is 32ms → increase threshold
+      },
+      immutableCheck: {
+        warnAfter: 64,
+      },
+    }).concat([loggerMiddleware]),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

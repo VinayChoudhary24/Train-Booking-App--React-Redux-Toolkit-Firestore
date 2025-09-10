@@ -8,11 +8,45 @@ import {
 } from "../../store/hooks/react-redux/hook";
 import {
   applyFilters,
+  clearAllFiltersAndSearch,
+  clearSearchParams,
   selectSearchParams,
   setSearchParams,
 } from "../../store/train/trainSlice/trainSlice";
 
 const ModifySearch = () => {
+  const sourceStations = [
+    "New Delhi",
+    "Mumbai Central",
+    "Chandigarh",
+    "Bangalore",
+    "Ernakulam",
+    "Trivandrum",
+    "Amritsar",
+    "Bhopal",
+    "Sealdah",
+    "Ahmedabad",
+    "Kalka",
+  ];
+
+  const destinationStations = [
+    "Howrah",
+    "New Delhi",
+    "Mumbai Central",
+    "Chandigarh",
+    "Bangalore",
+    "Ernakulam",
+    "Trivandrum",
+    "Amritsar",
+    "Bhopal",
+    "Sealdah",
+    "Ahmedabad",
+    "Kalka",
+    "Bhubaneswar",
+    "Agra Cantt",
+    "Mysore",
+  ];
+
   console.log("MODIFYING_SERACH");
   const navigate = useNavigate();
   const location = useLocation();
@@ -92,13 +126,25 @@ const ModifySearch = () => {
     }));
   }, []);
 
+  const handleClearFilters = useCallback(() => {
+    // Dispatch clearParams and filters action
+    dispatch(clearSearchParams());
+    dispatch(clearAllFiltersAndSearch());
+    setLocalSearchParams({
+      from: "",
+      to: "",
+      date: "",
+      travelClass: "",
+      quota: "General",
+    });
+    navigate("/train-search");
+  }, [dispatch, navigate]);
+
   return (
     <div className={styles.searchForm}>
       <form onSubmit={handleSearch}>
         <div className={styles.stationInputs}>
-          <input
-            type="text"
-            placeholder="From"
+          <select
             value={localSearchParams.from}
             onChange={(e) =>
               setLocalSearchParams({
@@ -106,7 +152,15 @@ const ModifySearch = () => {
                 from: e.target.value,
               })
             }
-          />
+            className={styles.select}
+          >
+            <option value="">Select Source</option>
+            {sourceStations.map((station) => (
+              <option key={station} value={station}>
+                {station}
+              </option>
+            ))}
+          </select>
           <button
             type="button"
             className={styles.swapButton}
@@ -114,14 +168,23 @@ const ModifySearch = () => {
           >
             <FaExchangeAlt />
           </button>
-          <input
-            type="text"
-            placeholder="To"
+          <select
             value={localSearchParams.to}
             onChange={(e) =>
-              setLocalSearchParams({ ...localSearchParams, to: e.target.value })
+              setLocalSearchParams({
+                ...localSearchParams,
+                to: e.target.value,
+              })
             }
-          />
+            className={styles.select}
+          >
+            <option value="">Select Destination</option>
+            {destinationStations.map((station) => (
+              <option key={station} value={station}>
+                {station}
+              </option>
+            ))}
+          </select>
         </div>
 
         <input
@@ -165,6 +228,9 @@ const ModifySearch = () => {
         </select>
 
         <button type="submit">Modify Search</button>
+        <button type="button" onClick={handleClearFilters}>
+          Clear
+        </button>
       </form>
     </div>
   );

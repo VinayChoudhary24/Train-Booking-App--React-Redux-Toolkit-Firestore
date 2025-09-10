@@ -116,6 +116,7 @@ export const loginWithGoogleAsync = createAsyncThunk<
 >("auth/loginWithGoogle", async (_, { rejectWithValue }) => {
   try {
     const user = await loginWithGoogle();
+    
     return {
       uid: user.uid,
       email: user.email,

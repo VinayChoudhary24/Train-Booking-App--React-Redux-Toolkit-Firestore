@@ -11,8 +11,9 @@ import {
   selectSearchParams,
   selectTrainError,
   selectTrainFilters,
-  selectTrainLoading,
+  // selectTrainLoading,
   toggleFilter,
+  addRecentSearch,
 } from "../../store/train/trainSlice/trainSlice";
 import { useCallback, useEffect, useMemo } from "react";
 import styles from "./TrainSearchResults.module.css";
@@ -21,12 +22,15 @@ import {
   setSearchParams,
 } from "../../store/train/trainSlice/trainSlice";
 import ModifySearch from "../../components/modifySearch/ModifySearch";
-import { fetchTrains } from "../../store/train/trainEffects/trainEffects";
+import {
+  fetchTrains,
+  // seedTrainsData,
+} from "../../store/train/trainEffects/trainEffects";
+// import Loader from "../../components/loader/Loader";
 import {
   hideLoader,
   showLoader,
 } from "../../store/loader/loaderSlice/loaderSlice";
-
 const TrainSearchResults = () => {
   console.log("TRAIN_RESULTS");
   const navigate = useNavigate();
@@ -36,7 +40,7 @@ const TrainSearchResults = () => {
   const filteredTrains = useAppSelector(selectFilteredTrains);
   const searchParams = useAppSelector(selectSearchParams);
   const filters = useAppSelector(selectTrainFilters);
-  const loading = useAppSelector(selectTrainLoading);
+  // const loading = useAppSelector(selectTrainLoading);
   const error = useAppSelector(selectTrainError);
 
   // STATE
@@ -62,23 +66,30 @@ const TrainSearchResults = () => {
     };
   }, [location.search]);
 
+  // useEffect(() => {
+  //   dispatch(seedTrainsData());
+  // }, []);
+
   // Parse query parameters and fetch trains
   useEffect(() => {
     dispatch(setSearchParams(parsedSearchParams));
 
     // Fetch trains if not already loaded
     if (trains.length === 0) {
+      //   console.log("FETCHING-TRAIN-1111");
       dispatch(showLoader());
-      console.log("FETCHING-TRAIN-1111");
       dispatch(fetchTrains());
     }
   }, [dispatch, parsedSearchParams, trains.length]);
 
   const handleDetailsClick = useCallback(
+    // dispatch recent search action here
     (train: any) => {
-      navigate(`/train-details/${train}`);
+      const train_number = train.train_number;
+      dispatch(addRecentSearch(train));
+      navigate(`/train-details/${train_number}`);
     },
-    [navigate]
+    [navigate, dispatch]
   );
 
   const handleBookNowClick = useCallback(
@@ -90,6 +101,7 @@ const TrainSearchResults = () => {
       // Get the first available class as default
       const defaultClass = Object.keys(train.price)[0] || "AC Chair Car";
 
+      dispatch(addRecentSearch(train));
       // Navigate to booking page with complete train details
       navigate("/booking", {
         state: {
@@ -108,7 +120,7 @@ const TrainSearchResults = () => {
         },
       });
     },
-    [navigate]
+    [navigate, dispatch]
   );
 
   // Apply filters when trains, search params, or filters change
@@ -118,10 +130,8 @@ const TrainSearchResults = () => {
       dispatch(showLoader());
       dispatch(applyFilters());
     }
-    // console.log("LOADING", loading);
-    // console.log("TRAINS", trains);
     dispatch(hideLoader());
-  }, [loading, trains, searchParams, filters, dispatch]);
+  }, [trains, searchParams, filters, dispatch]);
 
   // Clear error when component unmounts
   useEffect(() => {
@@ -143,18 +153,14 @@ const TrainSearchResults = () => {
       : trains;
   }, [trains, filteredTrains, searchParams, filters]);
 
-  // Show loading state
-  // if (loading) {
-  //   // dispatch(showLoader());
-  //   return (
-  //     <>
-  //       <ModifySearch />
-  //       <div className={styles.container}>
-  //         <div className={styles.loading}>Loading trains...</div>
-  //       </div>
-  //     </>
-  //   );
-  // }
+  // Toggle the message if no filt
+  const message = () => {
+    if (filteredTrains.length === 0) {
+      return "No trains found in this route";
+    } else {
+      return "Loading Your Trains... Please wait";
+    }
+  };
 
   // Show error state
   if (error) {
@@ -256,9 +262,7 @@ const TrainSearchResults = () => {
         </div>
         <div className={styles.trainList}>
           {displayTrains.length === 0 ? (
-            <div className={styles.noTrains}>
-              No trains found for this route.
-            </div>
+            <div className={styles.noTrains}>{message()}</div>
           ) : (
             displayTrains.map((train: any) => (
               <div key={train.train_number} className={styles.trainCard}>
@@ -307,7 +311,7 @@ const TrainSearchResults = () => {
                       </button>
                       <button
                         className={styles.otherDatesButton}
-                        onClick={() => handleDetailsClick(train.train_number)}
+                        onClick={() => handleDetailsClick(train)}
                       >
                         Other Details
                       </button>

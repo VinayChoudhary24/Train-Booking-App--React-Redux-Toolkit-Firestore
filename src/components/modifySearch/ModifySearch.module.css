@@ -31,6 +31,7 @@
 }
 
 .searchForm input,
+.searchForm select,
 .searchForm button {
   font-family: var(--font-family-primary);
   color: var(--font-color-primary);

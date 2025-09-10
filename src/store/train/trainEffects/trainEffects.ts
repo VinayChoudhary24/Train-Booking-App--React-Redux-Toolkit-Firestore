@@ -1,8 +1,32 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { enrichTrainDataWithRoute } from "../../../utils/train/trainHelper";
 import type { Train } from "../types/train.types";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../../configs/firebase/firebaseConfig";
+// import data from "../../../../trains_data";
 
-const API_URL = "https://mocki.io/v1/4099cc1c-9657-47c3-bb3f-10c34275e817";
+const trainsRef = collection(db, "trains");
+
+// export const seedTrainsData = createAsyncThunk(
+//   "trains/seed",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       // const trainsRef = collection(db, "trains");
+//       // const snapshot = await getDocs(trainsRef);
+//       // if (snapshot.empty) {
+//       for (const item of data) {
+//         await addDoc(trainsRef, item);
+//       }
+//       // }
+//       return true;
+//     } catch (error: unknown) {
+//       console.error("Error seeding trains data:", error);
+//       return rejectWithValue(
+//         (error as Error).message || "Failed to seed trains data"
+//       );
+//     }
+//   }
+// );
 
 /**
  * Fetch all trains
@@ -11,12 +35,15 @@ export const fetchTrains = createAsyncThunk(
   "trains/fetchTrains",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(API_URL);
-      if (!response.ok) {
-        return rejectWithValue(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      return data.data as Train[];
+      const q = query(trainsRef);
+      const snapshot = await getDocs(q);
+
+      const trains: Train[] = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as Train),
+      }));
+
+      return trains;
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : "Failed to fetch trains";
@@ -34,20 +61,20 @@ export const fetchTrainDetails = createAsyncThunk<
   { rejectValue: string }
 >("trains/fetchTrainDetails", async (trainNumber, { rejectWithValue }) => {
   try {
-    const response = await fetch(API_URL);
-    if (!response.ok) {
-      return rejectWithValue(`HTTP error! status: ${response.status}`);
-    }
+    const q = query(trainsRef, where("train_number", "==", trainNumber));
+    const snapshot = await getDocs(q);
 
-    const data = await response.json();
-    const train = (data.data as Train[]).find(
-      (t) => t.train_number === trainNumber
-    );
-
-    if (!train) {
+    if (snapshot.empty) {
       return rejectWithValue("Train not found");
     }
-    return enrichTrainDataWithRoute(train);
+
+    const trainDoc = snapshot.docs[0];
+    const train = trainDoc.data() as Train;
+
+    return enrichTrainDataWithRoute({
+      id: trainDoc.id,
+      ...train,
+    });
   } catch (error: unknown) {
     const message =
       error instanceof Error ? error.message : "Failed to fetch train details";

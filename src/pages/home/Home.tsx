@@ -15,6 +15,38 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
+  const sourceStations = [
+  "New Delhi",
+  "Mumbai Central",
+  "Chandigarh",
+  "Bangalore",
+  "Ernakulam",
+  "Trivandrum",
+  "Amritsar",
+  "Bhopal",
+  "Sealdah",
+  "Ahmedabad",
+  "Kalka"
+];
+
+const destinationStations = [
+  "Howrah",
+  "New Delhi",
+  "Mumbai Central",
+  "Chandigarh",
+  "Bangalore",
+  "Ernakulam",
+  "Trivandrum",
+  "Amritsar",
+  "Bhopal",
+  "Sealdah",
+  "Ahmedabad",
+  "Kalka",
+  "Bhubaneswar",
+  "Agra Cantt",
+  "Mysore"
+];
+
   // const dispatch = useAppDispatch();
   console.log("RENDER-HOME");
   // STATE
@@ -23,11 +55,43 @@ const Home = () => {
   const [date, setDate] = useState("");
   const [travelClass, setTravelClass] = useState("All Classes");
   const [quota, setQuota] = useState("General");
+  const [fromSuggestions, setFromSuggestions] = useState<string[]>([]);
+  const [toSuggestions, setToSuggestions] = useState<string[]>([]);
 
   const swapLocations = () => {
     setFrom(to);
     setTo(from);
   };
+
+  const handleFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const value = e.target.value;
+  setFrom(value);
+  setFromSuggestions(
+    sourceStations.filter(
+      (station) =>
+        station.toLowerCase().startsWith(value.toLowerCase()) && station !== value
+    )
+  );
+};
+const handleToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const value = e.target.value;
+  setTo(value);
+  setToSuggestions(
+    destinationStations.filter(
+      (station) =>
+        station.toLowerCase().startsWith(value.toLowerCase()) && station !== value
+    )
+  );
+};
+const handleSelectFrom = (station: string) => {
+  setFrom(station);
+  setFromSuggestions([]);
+};
+
+const handleSelectTo = (station: string) => {
+  setTo(station);
+  setToSuggestions([]);
+};
 
   // SIDE-EFFECTS
   // Handle form submission for search
@@ -64,9 +128,19 @@ const Home = () => {
               type="text"
               placeholder="From Station"
               value={from}
-              onChange={(e) => setFrom(e.target.value)}
+              onChange={handleFromChange}
               className={styles.input}
+              autoComplete="off"
             />
+            {fromSuggestions.length > 0 && (
+    <ul className={styles.suggestions}>
+      {fromSuggestions.map((station) => (
+        <li key={station} onClick={() => handleSelectFrom(station)}>
+          {station}
+        </li>
+      ))}
+    </ul>
+  )}
           </div>
           <button className={styles.swapButton} onClick={swapLocations}>
             <FaExchangeAlt />
@@ -77,9 +151,19 @@ const Home = () => {
               type="text"
               placeholder="To Station"
               value={to}
-              onChange={(e) => setTo(e.target.value)}
+              onChange={handleToChange}
               className={styles.input}
+              autoComplete="off"
             />
+            {toSuggestions.length > 0 && (
+    <ul className={styles.suggestions}>
+      {toSuggestions.map((station) => (
+        <li key={station} onClick={() => handleSelectTo(station)}>
+          {station}
+        </li>
+      ))}
+    </ul>
+  )}
           </div>
         </div>
 

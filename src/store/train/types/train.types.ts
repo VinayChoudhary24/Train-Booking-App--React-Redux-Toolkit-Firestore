@@ -35,6 +35,7 @@ export interface SearchParams {
 export interface TrainState {
   trains: Train[];
   filteredTrains: Train[];
+  recentSearches: Train[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   selectedTrain: any;
   searchParams: SearchParams;

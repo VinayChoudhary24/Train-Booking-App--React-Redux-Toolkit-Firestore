@@ -1,43 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaArrowRight } from "react-icons/fa";
 import styles from "./TrainCarousel.module.css";
-
-const recentSearches = [
-  {
-    from: { code: "CBE", name: "COIMBATORE" },
-    to: { code: "BRC", name: "VADODARA JN" },
-    date: "Tue 18 Mar 2025",
-    classType: "ALL CLASSES",
-  },
-  {
-    from: { code: "NDLS", name: "NEW DELHI" },
-    to: { code: "PNBE", name: "PATNA JN" },
-    date: "Mon 17 Mar 2025",
-    classType: "ALL CLASSES",
-  },
-  {
-    from: { code: "PRYJ", name: "PRAYAGRAJ" },
-    to: { code: "HW", name: "HARIDWAR" },
-    date: "THU 20 Mar 2025",
-    classType: "ALL CLASSES",
-  },
-  {
-    from: { code: "MAS", name: "CHENNAI CENTRAL" },
-    to: { code: "SBC", name: "BENGALURU" },
-    date: "Sat 22 Mar 2025",
-    classType: "AC 3 TIER",
-  },
-  {
-    from: { code: "CSTM", name: "MUMBAI CST" },
-    to: { code: "HWH", name: "HOWRAH JN" },
-    date: "Sun 23 Mar 2025",
-    classType: "SLEEPER",
-  },
-];
+import { useAppSelector } from "../../store/hooks/react-redux/hook";
+import { selectRecentSearches } from "../../store/train/trainSlice/trainSlice";
+import { useNavigate } from "react-router-dom";
 
 const TrainCarousel = () => {
+  const stationMap: Record<string, string> = {
+    "New Delhi": "NDLS",
+    "Mumbai Central": "BCT",
+    Chandigarh: "CDG",
+    Bangalore: "SBC",
+    Ernakulam: "ERS",
+    Trivandrum: "TVC",
+    Amritsar: "ASR",
+    Bhopal: "BPL",
+    Sealdah: "SDAH",
+    Ahmedabad: "ADI",
+    Kalka: "KLK",
+    Howrah: "HWH",
+    Bhubaneswar: "BBS",
+    "Agra Cantt": "AGC",
+    Mysore: "MYS",
+  };
+
+  const recentSearches = useAppSelector(selectRecentSearches);
+  const navigate = useNavigate();
+
   // Determine if we're on mobile or desktop
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
@@ -65,26 +57,54 @@ const TrainCarousel = () => {
     ],
   };
 
+  const handleSearchClick = (train: any) => {
+    const from = train.source;
+    const to = train.destination;
+    const date = train.date || "";
+    const travelClass = train.travelClass || "All Classes";
+    const quota = train.quota || "General";
+
+    navigate(
+      `/train-search?from=${encodeURIComponent(from)}&to=${encodeURIComponent(
+        to
+      )}&date=${encodeURIComponent(date)}&class=${encodeURIComponent(
+        travelClass
+      )}&quota=${encodeURIComponent(quota)}`
+    );
+  };
+
+  if (!recentSearches || recentSearches.length === 0) {
+    return null; // Don't render anything if no recent searches
+  }
+
   return (
     <div className={styles.carouselContainer}>
       <h2 className={styles.heading}>Recent Searches</h2>
       <Slider {...settings} className={styles.carousel}>
         {recentSearches.map((search, index) => (
-          <div key={index} className={styles.card}>
+          <div
+            key={index}
+            className={styles.card}
+            onClick={() => handleSearchClick(search)}
+          >
             <div className={styles.trainRoute}>
-              <span className={styles.stationCode}>{search.from.code}</span>
+              <span className={styles.stationCode}>
+                {stationMap[search.source] || "N/A"}
+              </span>
               <span className={styles.arrow}>
                 <FaArrowRight />
               </span>
-              <span className={styles.stationCode}>{search.to.code}</span>
+              <span className={styles.stationCode}>
+                {stationMap[search.destination] || "N/A"}
+              </span>
             </div>
             <div className={styles.stationNames}>
-              <span>{search.from.name}</span>
-              <span>{search.to.name}</span>
+              <span>{search.source}</span>
+              <span>{search.destination}</span>
             </div>
             <div className={styles.tripDetails}>
-              <span className={styles.date}>{search.date}</span>
-              <span className={styles.classType}>{search.classType}</span>
+              <span className={styles.date}>{search.train_name}</span>
+              <span className={styles.classType}>{search.train_number}</span>
             </div>
           </div>
         ))}

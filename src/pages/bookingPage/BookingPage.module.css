@@ -1,7 +1,8 @@
 .container {
   padding: 20px;
-  max-width: 1000px;
+  width: 90vw;
   margin: 0 auto;
+  margin-top: 2rem;
 }
 
 .container h2 {
@@ -11,11 +12,16 @@
 }
 
 .trainSummary {
-  background-color: #f3f8ff;
+  background-color: white;
   padding: 15px;
   border-radius: 8px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.trainSummary h3 {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .detailsGrid {
@@ -23,16 +29,43 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 10px;
   margin-top: 10px;
+  /* margin-right: 10px; */
+}
+
+.detailsGrid strong,
+.detailsGrid select {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
+}
+
+.detailsGrid span {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .passengerSection,
 .contactSection,
 .paymentSection {
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center;
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 20px;
   border: 1px solid #e0e0e0;
+}
+
+.contactSection h3,
+.paymentSection h3 {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
+}
+
+.passengerSection h3,
+.passengerSection h4 {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .passengerCard {
@@ -49,13 +82,17 @@
 }
 
 .inputGroup {
-  margin-bottom: 15px;
+  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+  margin-right: 1rem;
 }
 
 .inputGroup label {
   display: block;
   margin-bottom: 5px;
   font-weight: 500;
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .inputGroup input,
@@ -64,10 +101,19 @@
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
+}
+
+.contactSection .inputGroup input,
+.contactSection .inputGroup select {
+  margin-left: 1rem;
+  width: 40%;
 }
 
 .addButton,
 .removeButton {
+  font-family: var(--font-family-primary);
   padding: 8px 15px;
   border: none;
   border-radius: 4px;
@@ -95,6 +141,11 @@
   border-radius: 4px;
 }
 
+.paymentDetails span {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
+}
+
 .paymentDetails div {
   display: flex;
   justify-content: space-between;
@@ -112,6 +163,12 @@
   margin: 20px 0;
 }
 
+.termsSection span {
+  margin-left: 0.5rem;
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
+}
+
 .buttonGroup {
   text-align: center;
   margin-top: 20px;
@@ -119,6 +176,7 @@
 
 .payButton {
   background-color: #00539f;
+  font-family: var(--font-family-primary);
   color: white;
   padding: 12px 30px;
   border: none;
@@ -147,5 +205,41 @@
 
   .payButton {
     width: 100%;
+  }
+}
+
+/* Default (mobile-first, vertical layout) — already works fine */
+
+/* Medium and larger screens */
+@media (min-width: 769px) {
+  /* Train Summary - already grid, so leave it */
+
+  .passengerSection {
+    display: flex;
+    flex-direction: column; /* Keep heading + content vertical */
+  }
+
+  .passengerSection > div {
+    display: flex;
+    flex-wrap: wrap; /* Allow multiple passenger cards side by side */
+    gap: 20px;
+  }
+
+  .addButton {
+    align-self: flex-start; /* Button stays aligned properly */
+    margin-top: 10px;
+  }
+
+  .contactSection,
+  .paymentSection {
+    display: flex;
+    flex-direction: row; /* Make inputs/fare details side by side */
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .contactSection .inputGroup,
+  .paymentSection .paymentDetails {
+    flex: 1; /* Split width equally */
   }
 }

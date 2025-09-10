@@ -5,18 +5,14 @@ import { Outlet } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks/react-redux/hook";
 import { selectIsLoading } from "../../store/loader/loaderSlice/loaderSlice";
 import React from "react";
+import Loader from "../../components/loader/Loader";
 
 // const RootLayout = ({ children }: { children?: React.ReactNode }) => {
 const RootLayout = () => {
   const isLoading = useAppSelector(selectIsLoading);
 
   if (isLoading) {
-    return (
-      <div className={styles.loaderContainer}>
-        {/* Replace with your loader animation */}
-        <div className={styles.loader}></div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
