@@ -78,8 +78,8 @@ Redux Store
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/train-booking-app.git
-   cd train-booking-app
+   git clone https://github.com/VinayChoudhary24/Train-Booking-App--React-Redux-Toolkit-Firestore.git
+   cd train-booking-app or cd *app root folder
    ```
 
 2. **Install dependencies**
