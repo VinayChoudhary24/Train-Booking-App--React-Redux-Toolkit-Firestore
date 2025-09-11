@@ -78,6 +78,11 @@
   color: var(--hover-primary);
 }
 
+.userName {
+  color: var(--font-color-primary);
+  font-family: var(--font-family-primary);
+}
+
 .active {
   color: var(--text-active-color);
   text-decoration: none;

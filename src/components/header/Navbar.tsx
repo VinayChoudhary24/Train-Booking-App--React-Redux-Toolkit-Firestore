@@ -94,8 +94,8 @@ const Navbar = () => {
           {/* Authentication Buttons */}
           {isUserLoggedIn && user ? (
             <>
-              <span>{user.displayName}</span>
               <FaBell className={styles.icon} title="Notifications" />
+              <span className={styles.userName}>{user.displayName}</span>
               <Button
                 className="logout"
                 onClick={() => dispatch(logoutAsync())}
