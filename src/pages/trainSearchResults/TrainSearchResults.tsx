@@ -26,11 +26,7 @@ import {
   fetchTrains,
   // seedTrainsData,
 } from "../../store/train/trainEffects/trainEffects";
-// import Loader from "../../components/loader/Loader";
-import {
-  hideLoader,
-  showLoader,
-} from "../../store/loader/loaderSlice/loaderSlice";
+
 const TrainSearchResults = () => {
   console.log("TRAIN_RESULTS");
   const navigate = useNavigate();
@@ -77,7 +73,7 @@ const TrainSearchResults = () => {
     // Fetch trains if not already loaded
     if (trains.length === 0) {
       //   console.log("FETCHING-TRAIN-1111");
-      dispatch(showLoader());
+      // dispatch(showLoader());
       dispatch(fetchTrains());
     }
   }, [dispatch, parsedSearchParams, trains.length]);
@@ -127,10 +123,10 @@ const TrainSearchResults = () => {
   useEffect(() => {
     if (trains.length > 0) {
       // console.log("FETCHING-TRAIN-2222");
-      dispatch(showLoader());
+      // dispatch(showLoader());
       dispatch(applyFilters());
     }
-    dispatch(hideLoader());
+    // dispatch(hideLoader());
   }, [trains, searchParams, filters, dispatch]);
 
   // Clear error when component unmounts
@@ -226,18 +222,9 @@ const TrainSearchResults = () => {
               />
               Shatabdi
             </label>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={filters.trainType["Vaishali"]}
-                onChange={() => handleFilterChange("trainType", "Vaishali")}
-              />
-              Vaishali
-            </label>
           </div>
-          <div className={styles.filterColumn}>
+          {/* <div className={styles.filterColumn}>
             <h3>Departure Time</h3>
-            {/* Departure time filter checkboxes */}
             <label className={styles.checkboxLabel}>
               <input
                 type="checkbox"
@@ -258,7 +245,7 @@ const TrainSearchResults = () => {
               />
               06:00 - 12:00
             </label>
-          </div>
+          </div> */}
         </div>
         <div className={styles.trainList}>
           {displayTrains.length === 0 ? (

@@ -4,6 +4,7 @@ import { loggerMiddleware } from "./middlewares/loggerMiddleware";
 import { loaderReducer } from "./loader/loaderSlice/loaderSlice";
 import { trainReducer } from "./train/trainSlice/trainSlice";
 import { bookingReducer } from "./bookings/bookingSlice/bookingSlice";
+// import { loaderMiddleware } from "./middlewares/loaderMiddleware";
 
 export const store = configureStore({
   reducer: {

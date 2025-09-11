@@ -137,7 +137,8 @@ const ModifySearch = () => {
       travelClass: "",
       quota: "General",
     });
-    navigate("/train-search");
+    // navigate("/train-search");
+    navigate("/train-search", { replace: true });
   }, [dispatch, navigate]);
 
   return (

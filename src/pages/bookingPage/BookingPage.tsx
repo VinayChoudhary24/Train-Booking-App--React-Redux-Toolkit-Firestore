@@ -110,6 +110,8 @@ function BookingPage() {
   // Handle successful booking creation
   useEffect(() => {
     if (bookingCreated && lastBookingId) {
+      console.log("Booking-CREATED-22");
+
       navigate("/booking-confirmation", {
         state: {
           bookingId: lastBookingId,
@@ -131,6 +133,7 @@ function BookingPage() {
     passengers,
     contactInfo,
     calculateTotalFare,
+    dispatch,
   ]);
 
   // Update selected class
@@ -180,9 +183,12 @@ function BookingPage() {
       paymentSummary: calculateTotalFare(),
       status: "confirmed",
     };
-
+    // dispatch(showLoader());
     // Dispatch create booking action
+    // setTimeout(() => {
+    console.log("Booking-CREATED");
     dispatch(createBooking(bookingData));
+    // }, 5500);
   };
 
   const goBackToSearch = () => {

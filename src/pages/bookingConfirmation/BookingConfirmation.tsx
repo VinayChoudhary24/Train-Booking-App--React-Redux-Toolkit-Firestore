@@ -1,11 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./BookingConfirmation.module.css";
+import { useAppDispatch } from "../../store/hooks/react-redux/hook";
+import { useEffect } from "react";
+import { clearCurrentBooking } from "../../store/bookings/bookingSlice/bookingSlice";
 
 function BookingConfirmation() {
   const location = useLocation();
   const navigate = useNavigate();
   const { bookingId, bookingDetails } = location.state || {};
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(clearCurrentBooking());
+  }, [dispatch]);
 
   // If no booking data is available, show error message
   if (!bookingId || !bookingDetails) {
@@ -23,17 +31,6 @@ function BookingConfirmation() {
     );
   }
 
-  // Format date for display
-  //   const formatDate = (dateString) => {
-  //     const options = {
-  //       weekday: "long",
-  //       year: "numeric",
-  //       month: "long",
-  //       day: "numeric",
-  //     };
-  //     return new Date(dateString).toLocaleDateString(undefined, options);
-  //   };
-
   return (
     <div className={styles.container}>
       <div className={styles.confirmationCard}>
@@ -49,8 +46,8 @@ function BookingConfirmation() {
           <h3>Train Details</h3>
           <div className={styles.trainInfo}>
             <div className={styles.trainName}>
-              <strong>{bookingDetails.trainDetails.trainName}</strong> (
-              {bookingDetails.trainDetails.trainNumber})
+              <strong>{bookingDetails.trainDetails.trainName}</strong>{" "}
+              <span>({bookingDetails.trainDetails.trainNumber})</span>
             </div>
             <div className={styles.journeyDetails}>
               <div>

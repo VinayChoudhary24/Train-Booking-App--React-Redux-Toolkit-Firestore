@@ -111,6 +111,18 @@ export const trainSlice = createSlice({
         );
       }
 
+      // Filter by date (check day of week)
+      if (state.searchParams.date) {
+        const selectedDate = new Date(state.searchParams.date);
+        const dayIndex = selectedDate.getDay(); // 0 = Sunday, 1 = Monday ...
+        const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const selectedDay = days[dayIndex];
+
+        filtered = filtered.filter((train) =>
+          train.days_of_operation.includes(selectedDay)
+        );
+      }
+
       // Filter by travel class from search params
       if (
         state.searchParams.travelClass &&
@@ -118,17 +130,9 @@ export const trainSlice = createSlice({
       ) {
         filtered = filtered.filter((train) => {
           if (!train.price) return false;
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const classMap: Record<string, any> = {
-            "1A": "AC First Class",
-            "2A": "AC 2 Tier",
-            "3A": "AC 3 Tier",
-            SL: "Sleeper",
-          };
-          const classDisplayName =
-            classMap[state.searchParams.travelClass] ||
-            state.searchParams.travelClass;
-          return Object.keys(train.price).includes(classDisplayName);
+          return Object.keys(train.price).includes(
+            state.searchParams.travelClass
+          );
         });
       }
 
@@ -155,27 +159,27 @@ export const trainSlice = createSlice({
         );
       }
 
-      // Filter by departure time checkboxes
-      const activeTimeFilters = Object.keys(state.filters.departureTime).filter(
-        (key) => state.filters.departureTime[key]
-      );
-      if (activeTimeFilters.length > 0) {
-        filtered = filtered.filter((train) => {
-          const departureHour = parseInt(train.departure_time.split(":")[0]);
-          return activeTimeFilters.some((timeRange) => {
-            if (timeRange === "00:00 - 06:00") {
-              return departureHour >= 0 && departureHour < 6;
-            } else if (timeRange === "06:00 - 12:00") {
-              return departureHour >= 6 && departureHour < 12;
-            } else if (timeRange === "12:00 - 18:00") {
-              return departureHour >= 12 && departureHour < 18;
-            } else if (timeRange === "18:00 - 24:00") {
-              return departureHour >= 18 && departureHour < 24;
-            }
-            return false;
-          });
-        });
-      }
+      // // Filter by departure time checkboxes
+      // const activeTimeFilters = Object.keys(state.filters.departureTime).filter(
+      //   (key) => state.filters.departureTime[key]
+      // );
+      // if (activeTimeFilters.length > 0) {
+      //   filtered = filtered.filter((train) => {
+      //     const departureHour = parseInt(train.departure_time.split(":")[0]);
+      //     return activeTimeFilters.some((timeRange) => {
+      //       if (timeRange === "00:00 - 06:00") {
+      //         return departureHour >= 0 && departureHour < 6;
+      //       } else if (timeRange === "06:00 - 12:00") {
+      //         return departureHour >= 6 && departureHour < 12;
+      //       } else if (timeRange === "12:00 - 18:00") {
+      //         return departureHour >= 12 && departureHour < 18;
+      //       } else if (timeRange === "18:00 - 24:00") {
+      //         return departureHour >= 18 && departureHour < 24;
+      //       }
+      //       return false;
+      //     });
+      //   });
+      // }
 
       state.filteredTrains = filtered;
     },

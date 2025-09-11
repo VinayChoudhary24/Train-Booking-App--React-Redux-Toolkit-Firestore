@@ -43,12 +43,15 @@ export const fetchUserBookings = createAsyncThunk<
     const q = query(bookingsRef, where("userId", "==", userId));
     const querySnapshot = await getDocs(q);
 
-    const bookings: any = [];
-    querySnapshot.forEach((doc) => {
-      bookings.push({
+    const bookings = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
         id: doc.id,
-        ...doc.data,
-      });
+        ...data,
+        createdAt: data.createdAt
+          ? data.createdAt.toDate().toISOString()
+          : null,
+      };
     });
 
     return bookings;

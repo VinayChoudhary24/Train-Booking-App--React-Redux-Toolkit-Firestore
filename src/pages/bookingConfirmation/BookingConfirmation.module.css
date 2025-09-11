@@ -24,6 +24,7 @@
 
 .header h2 {
   color: #2e7d32;
+  font-family: var(--font-family-primary);
   margin: 0;
 }
 
@@ -37,6 +38,11 @@
 .bookingId span {
   color: #757575;
   margin-right: 5px;
+  font-family: var(--font-family-primary);
+}
+
+.bookingId strong {
+  font-family: var(--font-family-primary);
 }
 
 .section {
@@ -50,7 +56,8 @@
 }
 
 .section h3 {
-  color: #424242;
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
   margin-top: 0;
   margin-bottom: 15px;
   font-size: 18px;
@@ -67,11 +74,22 @@
   margin-bottom: 12px;
 }
 
+.trainName strong,
+.trainName span {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
+}
+
 .journeyDetails {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+}
+
+.journeyDetails span {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .stationName {
@@ -95,7 +113,8 @@
   flex-wrap: wrap;
   gap: 15px;
   margin-top: 15px;
-  color: #616161;
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .passengerTable {
@@ -108,6 +127,8 @@
   text-align: left;
   padding: 10px;
   border-bottom: 1px solid #e0e0e0;
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .passengerTable th {
@@ -119,6 +140,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .paymentInfo {
@@ -131,6 +154,11 @@
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
+}
+
+.paymentRow span {
+  font-family: var(--font-family-primary);
+  color: var(--font-color-primary);
 }
 
 .totalRow {

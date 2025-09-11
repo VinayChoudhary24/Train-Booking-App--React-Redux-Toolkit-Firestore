@@ -16,36 +16,36 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   const sourceStations = [
-  "New Delhi",
-  "Mumbai Central",
-  "Chandigarh",
-  "Bangalore",
-  "Ernakulam",
-  "Trivandrum",
-  "Amritsar",
-  "Bhopal",
-  "Sealdah",
-  "Ahmedabad",
-  "Kalka"
-];
+    "New Delhi",
+    "Mumbai Central",
+    "Chandigarh",
+    "Bangalore",
+    "Ernakulam",
+    "Trivandrum",
+    "Amritsar",
+    "Bhopal",
+    "Sealdah",
+    "Ahmedabad",
+    "Kalka",
+  ];
 
-const destinationStations = [
-  "Howrah",
-  "New Delhi",
-  "Mumbai Central",
-  "Chandigarh",
-  "Bangalore",
-  "Ernakulam",
-  "Trivandrum",
-  "Amritsar",
-  "Bhopal",
-  "Sealdah",
-  "Ahmedabad",
-  "Kalka",
-  "Bhubaneswar",
-  "Agra Cantt",
-  "Mysore"
-];
+  const destinationStations = [
+    "Howrah",
+    "New Delhi",
+    "Mumbai Central",
+    "Chandigarh",
+    "Bangalore",
+    "Ernakulam",
+    "Trivandrum",
+    "Amritsar",
+    "Bhopal",
+    "Sealdah",
+    "Ahmedabad",
+    "Kalka",
+    "Bhubaneswar",
+    "Agra Cantt",
+    "Mysore",
+  ];
 
   // const dispatch = useAppDispatch();
   console.log("RENDER-HOME");
@@ -64,34 +64,36 @@ const destinationStations = [
   };
 
   const handleFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const value = e.target.value;
-  setFrom(value);
-  setFromSuggestions(
-    sourceStations.filter(
-      (station) =>
-        station.toLowerCase().startsWith(value.toLowerCase()) && station !== value
-    )
-  );
-};
-const handleToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const value = e.target.value;
-  setTo(value);
-  setToSuggestions(
-    destinationStations.filter(
-      (station) =>
-        station.toLowerCase().startsWith(value.toLowerCase()) && station !== value
-    )
-  );
-};
-const handleSelectFrom = (station: string) => {
-  setFrom(station);
-  setFromSuggestions([]);
-};
+    const value = e.target.value;
+    setFrom(value);
+    setFromSuggestions(
+      sourceStations.filter(
+        (station) =>
+          station.toLowerCase().startsWith(value.toLowerCase()) &&
+          station !== value
+      )
+    );
+  };
+  const handleToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTo(value);
+    setToSuggestions(
+      destinationStations.filter(
+        (station) =>
+          station.toLowerCase().startsWith(value.toLowerCase()) &&
+          station !== value
+      )
+    );
+  };
+  const handleSelectFrom = (station: string) => {
+    setFrom(station);
+    setFromSuggestions([]);
+  };
 
-const handleSelectTo = (station: string) => {
-  setTo(station);
-  setToSuggestions([]);
-};
+  const handleSelectTo = (station: string) => {
+    setTo(station);
+    setToSuggestions([]);
+  };
 
   // SIDE-EFFECTS
   // Handle form submission for search
@@ -133,14 +135,14 @@ const handleSelectTo = (station: string) => {
               autoComplete="off"
             />
             {fromSuggestions.length > 0 && (
-    <ul className={styles.suggestions}>
-      {fromSuggestions.map((station) => (
-        <li key={station} onClick={() => handleSelectFrom(station)}>
-          {station}
-        </li>
-      ))}
-    </ul>
-  )}
+              <ul className={styles.suggestions}>
+                {fromSuggestions.map((station) => (
+                  <li key={station} onClick={() => handleSelectFrom(station)}>
+                    {station}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <button className={styles.swapButton} onClick={swapLocations}>
             <FaExchangeAlt />
@@ -156,14 +158,14 @@ const handleSelectTo = (station: string) => {
               autoComplete="off"
             />
             {toSuggestions.length > 0 && (
-    <ul className={styles.suggestions}>
-      {toSuggestions.map((station) => (
-        <li key={station} onClick={() => handleSelectTo(station)}>
-          {station}
-        </li>
-      ))}
-    </ul>
-  )}
+              <ul className={styles.suggestions}>
+                {toSuggestions.map((station) => (
+                  <li key={station} onClick={() => handleSelectTo(station)}>
+                    {station}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
 
@@ -186,11 +188,11 @@ const handleSelectTo = (station: string) => {
               value={travelClass}
               onChange={(e) => setTravelClass(e.target.value)}
             >
-              <option>All Classes</option>
-              <option>Sleeper</option>
-              <option>AC 3 Tier</option>
-              <option>AC 2 Tier</option>
-              <option>AC First Class</option>
+              <option value="">All Classes</option>
+              <option value="1A">AC First Class (1A)</option>
+              <option value="2A">AC 2 Tier (2A)</option>
+              <option value="3A">AC 3 Tier (3A)</option>
+              <option value="SL">Sleeper (SL)</option>
             </select>
           </div>
         </div>
@@ -224,9 +226,9 @@ const handleSelectTo = (station: string) => {
           <label>
             <input type="checkbox" /> Train with Available Berth
           </label>
-          <label>
+          {/* <label>
             <input type="checkbox" /> Railway Pass Concession
-          </label>
+          </label> */}
         </div>
 
         {/* Buttons */}

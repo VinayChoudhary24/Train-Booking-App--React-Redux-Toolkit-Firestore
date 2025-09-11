@@ -9,6 +9,7 @@ import TrainDetails from "./pages/trainDetails/TrainDetails";
 import BookingConfirmation from "./pages/bookingConfirmation/BookingConfirmation";
 import BookingPage from "./pages/bookingPage/BookingPage";
 import MyBookings from "./pages/myBookings/MyBookings";
+import ContactPage from "./pages/contactUS/contactPage";
 // import { lazy, Suspense } from "react";
 
 // const TrainSearchResults = lazy(
@@ -25,7 +26,7 @@ const ROUTES = {
       TRAIN_SEARCH: "train-search",
       TRAIN_DETAIL: "train-details/:train_number",
       BOOKING_CONFIRMATION: "booking-confirmation",
-      MY_BOOKINGS: "my-bookings",
+      MY_BOOKINGS: "my-bookings/:userId",
     },
   },
 };
@@ -70,15 +71,14 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: ROUTES.HOME.CHILDREN.BOOKING,
+        path: ROUTES.HOME.CHILDREN.MY_BOOKINGS,
         element: (
           <ProtectedRoute>
             <MyBookings />
           </ProtectedRoute>
         ),
       },
-      // { path: ROUTES.HOME.CHILDREN.CONTACT, element: <ContactPage /> },
-      // { path: ROUTES.HOME.CHILDREN.LOGIN, element: <LoginPage /> },
+      { path: ROUTES.HOME.CHILDREN.CONTACT, element: <ContactPage /> },
     ],
   },
 ]);

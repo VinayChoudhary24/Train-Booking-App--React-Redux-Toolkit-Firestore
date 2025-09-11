@@ -1,29 +1,62 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import styles from "./MyBookings.module.css";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../store/hooks/react-redux/hook";
-import { selectUserDetails } from "../../store/auth/authSlice/authSlice";
-import {
-  selectBookingsError,
-  selectUserBookings,
-} from "../../store/bookings/bookingSlice/bookingSlice";
-import { fetchUserBookings } from "../../store/bookings/bookingEffects/bookingEffects";
+import { db } from "../../configs/firebase/firebaseConfig";
+// import { useAppDispatch } from "../../store/hooks/react-redux/hook";
+// import {
+//   hideLoader,
+//   showLoader,
+// } from "../../store/loader/loaderSlice/loaderSlice";
 
 const MyBookings = () => {
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(selectUserDetails);
-
-  const userBookings = useAppSelector(selectUserBookings);
-  const error = useAppSelector(selectBookingsError);
+  const { userId } = useParams();
+  const [userBookings, setUserBookings] = useState<any[]>([]);
+  // const dispatch = useAppDispatch();
+  // const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (user?.uid) {
-      dispatch(fetchUserBookings(user.uid));
-    }
-  }, [dispatch, user?.uid]);
+    const fetchBookings = async () => {
+      try {
+        // dispatch(showLoader());
+        const bookingsRef = collection(db, "bookings");
+        const q = query(bookingsRef, where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
+
+        const bookings = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            ...data,
+            createdAt: data.createdAt
+              ? data.createdAt.toDate().toISOString()
+              : null,
+          };
+        });
+
+        setUserBookings(bookings);
+      } catch (err: any) {
+        setError(err.message || "Failed to fetch bookings");
+      }
+    };
+
+    fetchBookings();
+  }, [userId]);
+
+  // if (loading) {
+  //   const message =
+  //     userBookings.length === 0
+  //       ? "There are no bookings"
+  //       : "Updating your bookings, please wait...";
+
+  //   return (
+  //     <div className={styles.loaderContainer}>
+  //       <h2>{message}</h2>
+  //     </div>
+  //   );
+  // }
 
   if (error) {
     return (
@@ -50,7 +83,7 @@ const MyBookings = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>My Bookings</h2>
+      <h2 className={styles.title}>MY BOOKINGS</h2>
       <div className={styles.tableContainer}>
         <table className={styles.bookingsTable}>
           <thead>
@@ -66,12 +99,9 @@ const MyBookings = () => {
             </tr>
           </thead>
           <tbody>
-            {/* {console.log(userBookings)} */}
             {userBookings.map((booking) => (
               <tr key={booking.id} className={styles.bookingRow}>
-                <td>
-                  <div>{booking.id || "-"}</div>
-                </td>
+                <td>{booking.id || "-"}</td>
                 <td>
                   <div className={styles.trainName}>
                     {booking.trainDetails?.trainName || "N/A"}
@@ -85,9 +115,7 @@ const MyBookings = () => {
                     {booking.trainDetails?.from || "N/A"}
                   </div>
                   <div className={styles.departureTime}>
-                    {booking.trainDetails?.departureTime
-                      ? booking.trainDetails?.departureTime
-                      : "N/A"}
+                    {booking.trainDetails?.departureTime || "N/A"}
                   </div>
                 </td>
                 <td>
@@ -95,16 +123,10 @@ const MyBookings = () => {
                     {booking.trainDetails?.to || "N/A"}
                   </div>
                   <div className={styles.arrivalTime}>
-                    {booking.trainDetails?.arrivalTime
-                      ? booking.trainDetails?.arrivalTime
-                      : "N/A"}
+                    {booking.trainDetails?.arrivalTime || "N/A"}
                   </div>
                 </td>
-                <td>
-                  {booking.trainDetails?.date
-                    ? booking.trainDetails?.date
-                    : "N/A"}
-                </td>
+                <td>{booking.trainDetails?.date || "N/A"}</td>
                 <td>{booking.trainDetails?.travelClass || "N/A"}</td>
                 <td>{booking.passengers?.length || 0}</td>
                 <td>
