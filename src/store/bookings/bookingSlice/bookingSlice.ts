@@ -10,7 +10,7 @@ import type {
 } from "../types/booking.types";
 import {
   createBooking,
-  // fetchUserBookings,
+  fetchUserBookings,
 } from "../bookingEffects/bookingEffects";
 
 const initialState: BookingState = {
@@ -157,21 +157,21 @@ const bookingsSlice = createSlice({
       .addCase(createBooking.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? "Failed to create booking";
-      });
+      })
 
-    // .addCase(fetchUserBookings.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    // })
-    // .addCase(fetchUserBookings.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.userBookings = action.payload;
-    //   state.error = null;
-    // })
-    // .addCase(fetchUserBookings.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action.payload ?? "Failed to fetch bookings";
-    // });
+    .addCase(fetchUserBookings.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchUserBookings.fulfilled, (state, action) => {
+      state.loading = false;
+      state.userBookings = action.payload;
+      state.error = null;
+    })
+    .addCase(fetchUserBookings.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload ?? "Failed to fetch bookings";
+    });
   },
 });
 

@@ -1,62 +1,64 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { collection, getDocs, query, where } from "firebase/firestore";
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+// import { collection, getDocs, query, where } from "firebase/firestore";
 import styles from "./MyBookings.module.css";
-import { db } from "../../configs/firebase/firebaseConfig";
-// import { useAppDispatch } from "../../store/hooks/react-redux/hook";
+// import { db } from "../../configs/firebase/firebaseConfig";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../store/hooks/react-redux/hook";
+import {
+  selectBookingsError,
+  selectUserBookings,
+} from "../../store/bookings/bookingSlice/bookingSlice";
+import { fetchUserBookings } from "../../store/bookings/bookingEffects/bookingEffects";
 // import {
 //   hideLoader,
 //   showLoader,
 // } from "../../store/loader/loaderSlice/loaderSlice";
 
 const MyBookings = () => {
-  const { userId } = useParams();
-  const [userBookings, setUserBookings] = useState<any[]>([]);
-  // const dispatch = useAppDispatch();
+  // const { userId } = useParams();
+  // const [userBookings, setUserBookings] = useState<any[]>([]);
+  const dispatch = useAppDispatch();
   // const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
+  const userBookings = useAppSelector(selectUserBookings);
+  const error = useAppSelector(selectBookingsError);
 
   useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        // dispatch(showLoader());
-        const bookingsRef = collection(db, "bookings");
-        const q = query(bookingsRef, where("userId", "==", userId));
-        const querySnapshot = await getDocs(q);
+    // if (user?.uid) {
+    dispatch(fetchUserBookings());
+    // }
+  }, [dispatch]);
+  // useEffect(() => {
+  //   const fetchBookings = async () => {
+  //     try {
+  //       // dispatch(showLoader());
+  //       const bookingsRef = collection(db, "bookings");
+  //       const q = query(bookingsRef, where("userId", "==", userId));
+  //       const querySnapshot = await getDocs(q);
 
-        const bookings = querySnapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            ...data,
-            createdAt: data.createdAt
-              ? data.createdAt.toDate().toISOString()
-              : null,
-          };
-        });
+  //       const bookings = querySnapshot.docs.map((doc) => {
+  //         const data = doc.data();
+  //         return {
+  //           id: doc.id,
+  //           ...data,
+  //           createdAt: data.createdAt
+  //             ? data.createdAt.toDate().toISOString()
+  //             : null,
+  //         };
+  //       });
 
-        setUserBookings(bookings);
-      } catch (err: any) {
-        setError(err.message || "Failed to fetch bookings");
-      }
-    };
+  //       setUserBookings(bookings);
+  //     } catch (err: any) {
+  //       setError(err.message || "Failed to fetch bookings");
+  //     }
+  //   };
 
-    fetchBookings();
-  }, [userId]);
-
-  // if (loading) {
-  //   const message =
-  //     userBookings.length === 0
-  //       ? "There are no bookings"
-  //       : "Updating your bookings, please wait...";
-
-  //   return (
-  //     <div className={styles.loaderContainer}>
-  //       <h2>{message}</h2>
-  //     </div>
-  //   );
-  // }
+  //   fetchBookings();
+  // }, [userId]);
 
   if (error) {
     return (

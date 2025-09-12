@@ -9,6 +9,7 @@ import {
   serverTimestamp,
   where,
 } from "firebase/firestore";
+import { loadAuth } from "../../auth/service/localStorage";
 
 // Create booking
 export const createBooking = createAsyncThunk<
@@ -35,10 +36,17 @@ export const createBooking = createAsyncThunk<
 // Fetch user bookings
 export const fetchUserBookings = createAsyncThunk<
   any[],
-  string,
+  void,
   { rejectValue: string }
->("bookings/fetchUserBookings", async (userId, { rejectWithValue }) => {
+>("bookings/fetchUserBookings", async (_, { rejectWithValue }) => {
   try {
+    // Load user from localStorage
+    const auth = loadAuth();
+    if (!auth || !auth.user?.uid) {
+      return rejectWithValue("No user found in localStorage");
+    }
+
+    const userId = auth.user.uid;
     const bookingsRef = collection(db, "bookings");
     const q = query(bookingsRef, where("userId", "==", userId));
     const querySnapshot = await getDocs(q);
